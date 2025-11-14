@@ -1,0 +1,12 @@
+import { test, expect } from '@playwright/test';
+
+test('Login échoue avec mauvais mot de passe', async ({ page }) => {
+  await page.goto('https://the-internet.herokuapp.com/login');
+
+  await page.fill('#username', 'tomsmith');
+  await page.fill('#password', 'WRONG_PASSWORD'); // ← Faux !
+  await page.click('button[type="submit"]');
+
+  // Assertion qui va échouer
+  await expect(page.locator('.flash.success')).toBeVisible({ timeout: 3000 });
+});
